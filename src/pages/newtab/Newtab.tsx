@@ -3,7 +3,8 @@ import { Tldraw } from "tldraw";
 import "tldraw/tldraw.css";
 
 export default function Newtab() {
-  const [currScreenShot, setCurrScreenShot] = useState("");
+  // I guess it's kind of a string but not really
+  const [currScreenShot, setCurrScreenShot] = useState<string[]>([]);
 
   console.log("huh???");
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function Newtab() {
           `Old value was "${oldValue}", new value is "${newValue}".`
         );
         if (key === "latestScreenshot" && namespace === "local") {
-          setCurrScreenShot(newValue);
+          setCurrScreenShot((scs) => [...scs, newValue]);
         }
       }
     };
@@ -26,8 +27,10 @@ export default function Newtab() {
   }, []);
 
   return (
-    <div style={{ position: "fixed", inset: 0 }}>
-      <img src={currScreenShot} />;{/* <Tldraw /> */}
+    <div>
+      {currScreenShot.map((img, idx) => (
+        <img src={img} key={idx}></img>
+      ))}
     </div>
   );
 }
